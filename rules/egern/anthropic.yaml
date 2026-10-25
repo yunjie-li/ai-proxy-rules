@@ -13,7 +13,6 @@ domain_set:
   - "servd-anthropic-website.b-cdn.net"
   - "storage.googleapis.com"
 domain_suffix_set:
-  - "//github.com/aprilnea/reverse-engineering-claude-code-antspace"
   - "ant.dev"
   - "anthropic.com"
   - "anthropic.com.cn"

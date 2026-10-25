@@ -1,14 +1,14 @@
 # STATUS
 
 Last generated: 2026-10-25
-Providers: 102 · Total rules: 432
+Providers: 102 · Total rules: 431
 
 | Provider | ID | Scope | Categories | Aliases | Rules | Sources |
 |---|---|---|---|---|---:|---|
 | Adobe Firefly | `adobe-firefly` | global | media | - | 2 | _handwritten_ |
 | Alibaba AI | `alibaba-ai` | cn | coding, model | bailian, dashscope, qoder-cn, qwen, tongyi | 11 | _handwritten_ |
 | Amazon Q Developer | `amazon-q` | global | coding | q-developer | 15 | _handwritten_ |
-| Anthropic | `anthropic` | global | coding, model | claude, claude-code | 53 | net-coffee, fetched 2026-10-25; xiaolai, fetched 2026-10-25; v2fly, fetched 2026-10-25 |
+| Anthropic | `anthropic` | global | coding, model | claude, claude-code | 52 | net-coffee, fetched 2026-10-25; xiaolai, fetched 2026-10-25; v2fly, fetched 2026-10-25 |
 | Augment Code | `augment-code` | global | coding | augment, auggie | 4 | _handwritten_ |
 | Baidu AI | `baidu-ai` | cn | model | qianfan, ernie, wenxin | 3 | _handwritten_ |
 | Black Forest Labs | `black-forest-labs` | global | media | flux | 1 | _handwritten_ |

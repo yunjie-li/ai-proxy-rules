@@ -44,7 +44,6 @@ domain_set:
   - "webchannel-alkalimakersuite-pa.clients6.google.com"
   - "yiyan.baidu.com"
 domain_suffix_set:
-  - "//github.com/aprilnea/reverse-engineering-claude-code-antspace"
   - "ai.cloudflare.com"
   - "ai.com"
   - "ai.google.dev"

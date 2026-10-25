@@ -2,64 +2,69 @@ name: Generate Rules
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - "data/**"
-      - "scripts/**"
-      - "tests/**"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "tsconfig.json"
-      - ".github/workflows/generate.yml"
+    branches: [main]
+    paths: ["data/**", "scripts/**", "tests/**", "fork/**", "package.json", "pnpm-lock.yaml", "tsconfig.json", ".github/workflows/generate.yml"]
   pull_request:
-    paths:
-      - "data/**"
-      - "scripts/**"
-      - "tests/**"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "tsconfig.json"
-      - ".github/workflows/generate.yml"
+    paths: ["data/**", "scripts/**", "tests/**", "fork/**", "package.json", "pnpm-lock.yaml", "tsconfig.json", ".github/workflows/generate.yml"]
   schedule:
-    - cron: "0 23 * * *"
+    - cron: "17 23 * * *"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: rules-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   generate:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+      - name: Set commit identity
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Sync upstream code while preserving fork overlay
+        if: github.event_name != 'pull_request'
+        run: bash fork/sync-upstream.sh
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 24
       - run: corepack enable
       - run: corepack prepare pnpm@10.33.2 --activate
       - run: pnpm install --frozen-lockfile
       - run: pnpm sync
+      - name: Filter malformed rules before generation
+        run: pnpm exec tsx fork/filter-rules.ts
       - run: pnpm guard
       - run: pnpm check
+      - name: Type-check fork overlay
+        run: pnpm exec tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --esModuleInterop --skipLibCheck --strict --noUncheckedIndexedAccess fork/filter-rules.ts fork/filter-rules.test.ts
       - run: pnpm check:metadata
       - run: pnpm check:readme
       - run: pnpm test
+      - name: Test upstream sync and overlay preservation
+        run: bash fork/sync-upstream.test.sh
       - run: pnpm generate
       - run: pnpm status
-      - name: Commit generated data and rules
+      - name: Record validated upstream revision
         if: github.event_name != 'pull_request'
         run: |
-          git config user.name "vps.dance"
-          git config user.email "dancevps@gmail.com"
-          SUMMARY=$(pnpm -s diff-summary || echo "rule change summary unavailable")
-          git add data rules STATUS.md 2>/dev/null || git add data rules
-          if git diff --cached --quiet; then
-            echo "No generated changes"
-          elif git diff --cached --quiet -- data rules; then
-            git commit -m "chore(status): record daily sync with no rule changes"
-            git push
-          else
-            git commit -m "chore(rules): sync generated rules ($SUMMARY)"
-            git push
+          UPSTREAM_SHA=$(git rev-parse refs/remotes/upstream/main)
+          export UPSTREAM_SHA
+          node --input-type=module -e 'import {writeFileSync} from "node:fs"; writeFileSync("fork/last-sync.json", JSON.stringify({upstream: process.env.UPSTREAM_SHA, validatedAt: new Date().toISOString()}, null, 2) + "\n")'
+      - name: Publish only after all checks pass
+        if: github.event_name != 'pull_request'
+        run: |
+          git add -A
+          if ! git diff --cached --quiet || git rev-parse -q --verify MERGE_HEAD >/dev/null; then
+            git commit -m 'chore: 同步上游代码并过滤异常规则'
+            git push origin HEAD:main
           fi

@@ -57,7 +57,6 @@ HOST,cdn.growthbook.io,global
 HOST,cdn.usefathom.com,global
 HOST,servd-anthropic-website.b-cdn.net,global
 HOST,storage.googleapis.com,global
-HOST-SUFFIX,//github.com/aprilnea/reverse-engineering-claude-code-antspace,global
 HOST-SUFFIX,ant.dev,global
 HOST-SUFFIX,anthropic.team,global
 HOST-SUFFIX,chatbotclaude.com,global

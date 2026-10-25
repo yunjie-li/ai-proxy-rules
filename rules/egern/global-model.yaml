@@ -33,7 +33,6 @@ domain_set:
   - "storage.googleapis.com"
   - "webchannel-alkalimakersuite-pa.clients6.google.com"
 domain_suffix_set:
-  - "//github.com/aprilnea/reverse-engineering-claude-code-antspace"
   - "ai.cloudflare.com"
   - "ai.com"
   - "ai.google.dev"
