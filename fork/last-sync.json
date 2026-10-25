@@ -1,14 +1,4 @@
 {
   "upstream": "6fdcd829f759db7660839ec8321537aff50ee582",
-  "validatedAt": "2026-10-25T02:49:16.994848+00:00",
-  "validation": {
-    "tests": 48,
-    "providers": 102,
-    "mihomo": "v1.19.33",
-    "openClashConversion": {
-      "nodes": 238,
-      "cathyNodes": 12,
-      "cathyRules": 107
-    }
-  }
+  "validatedAt": "2026-10-25T03:09:44.136Z"
 }
