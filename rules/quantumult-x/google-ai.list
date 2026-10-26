@@ -23,6 +23,9 @@ HOST,alkalicore-pa.clients6.google.com,google-ai
 HOST,alkalimakersuite-pa.clients6.google.com,google-ai
 HOST,antigravity-pa.googleapis.com,google-ai
 HOST,antigravity.googleapis.com,google-ai
+HOST,appsgenaiserver-pa.clients.google.com,google-ai
+HOST,appsgenaiserver-pa.clients6.google.com,google-ai
+HOST,appsgenaiserver-pa.googleapis.com,google-ai
 HOST,cloudaicompanion.googleapis.com,google-ai
 HOST,cloudcode-pa.googleapis.com,google-ai
 HOST,daily-cloudcode-pa.googleapis.com,google-ai

@@ -96,6 +96,9 @@ HOST,alkalicore-pa.clients6.google.com,global-model
 HOST,alkalimakersuite-pa.clients6.google.com,global-model
 HOST,antigravity-pa.googleapis.com,global-model
 HOST,antigravity.googleapis.com,global-model
+HOST,appsgenaiserver-pa.clients.google.com,global-model
+HOST,appsgenaiserver-pa.clients6.google.com,global-model
+HOST,appsgenaiserver-pa.googleapis.com,global-model
 HOST,cloudaicompanion.googleapis.com,global-model
 HOST,cloudcode-pa.googleapis.com,global-model
 HOST,daily-cloudcode-pa.googleapis.com,global-model
