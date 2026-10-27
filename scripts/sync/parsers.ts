@@ -180,7 +180,7 @@ function normalizeLine(line: string): string {
 }
 
 function normalizeDomainListLine(line: string): string {
-  return line.trim();
+  return line.split("#", 1)[0]!.trim();
 }
 
 function stripQuotes(value: string): string {

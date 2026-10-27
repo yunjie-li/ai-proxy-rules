@@ -90,6 +90,38 @@ meta.com
     expect(parsed.domainSuffix).toEqual(["llama.com", "meta.ai", "meta.com"]);
   });
 
+  it("ignores inline comments before parsing domain-list-community entries", async () => {
+    const parsed = await parseDomainListCommunityRules(
+      `
+antspace.dev # https://github.com/AprilNEA/reverse-engineering-claude-code-antspace
+full:api.example.com#comment
+keep.example.com @!cn # @ads https://example.com
+blocked.example.com @ads # @!cn
+regexp:^api\\.example\\.com$ # source: https://example.com
+# comment only
+`
+    );
+
+    expect(parsed.domain).toEqual(["api.example.com"]);
+    expect(parsed.domainSuffix).toEqual(["antspace.dev", "keep.example.com"]);
+    expect(parsed.domainRegex).toEqual(["^api\\.example\\.com$"]);
+  });
+
+  it("ignores comments in include directives and included entries", async () => {
+    const parsed = await parseDomainListCommunityRules(
+      "include:child # source: https://example.com",
+      {
+        sourceUrl: "https://example.com/data/anthropic",
+        fetchText: async (url) => {
+          expect(url).toBe("https://example.com/data/child");
+          return "child.example.com # source";
+        }
+      }
+    );
+
+    expect(parsed.domainSuffix).toEqual(["child.example.com"]);
+  });
+
   it("keeps only untagged or @!cn domain-list-community entries", async () => {
     const parsed = await parseDomainListCommunityRules(
       `
